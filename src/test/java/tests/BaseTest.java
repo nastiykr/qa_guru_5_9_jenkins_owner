@@ -10,6 +10,7 @@ import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
 import static helpers.AttachmentHelper.attachAsText;
 import static helpers.AttachmentHelper.attachPageSource;
 import static helpers.AttachmentHelper.attachScreenshot;
+import static helpers.AttachmentHelper.attachVideo;
 import static helpers.AttachmentHelper.getConsoleLogs;
 
 public class BaseTest {
@@ -30,5 +31,6 @@ public class BaseTest {
         attachScreenshot("Last screenshot");
         attachPageSource();
         attachAsText("Browser console logs", getConsoleLogs());
+        attachVideo();
     }
 }
