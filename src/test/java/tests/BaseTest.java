@@ -1,7 +1,9 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import config.DriverConfig;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -16,6 +18,8 @@ import static helpers.AttachmentHelper.getConsoleLogs;
 
 public class BaseTest {
 
+    static DriverConfig driverConfig = ConfigFactory.create(DriverConfig.class);
+
     @BeforeAll
     static void setup() {
         Configuration.startMaximized = true;
@@ -24,7 +28,14 @@ public class BaseTest {
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub/";
+        Configuration.browser = System.getProperty("web.browser", "chrome");
+
+        String remoteWebDriver = System.getProperty("remote.web.driver");
+        if (remoteWebDriver != null) {
+            String user = driverConfig.getRemoteWebUser();
+            String password = driverConfig.getRemoteWebPassword();
+            Configuration.remote = String.format(remoteWebDriver, user, password);
+        }
     }
 
     @AfterEach
@@ -32,7 +43,9 @@ public class BaseTest {
         attachScreenshot("Last screenshot");
         attachPageSource();
         attachAsText("Browser console logs", getConsoleLogs());
-        attachVideo();
+        if (System.getProperty("video.storage") != null) {
+            attachVideo();
+        }
         closeWebDriver();
     }
 }
