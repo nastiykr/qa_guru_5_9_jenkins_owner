@@ -26,7 +26,7 @@ public class RegistrationPage {
     private String year = new SimpleDateFormat("yyyy").format(dateOfBirth);
     private String subject = "Social Studies";
     private String hobby = "Music";
-    private String photoName = "img/photo.jpeg";
+    private String photoName = "photo.jpeg";
     private String address = faker.address().fullAddress();
     private String state = "Haryana";
     private String city = "Karnal";
