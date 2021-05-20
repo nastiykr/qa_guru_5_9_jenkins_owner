@@ -13,11 +13,4 @@ public class StudentRegistrationFormTests extends BaseTest {
                 .fillForm()
                 .checkData();
     }
-
-    @Test
-    void negativeFillFormPage() {
-        registrationPage
-                .openPage()
-                .checkData();
-    }
 }
